@@ -18,13 +18,26 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId);
-    connection.end();
+    readInventory()
 });
+
+function readInventory() {
+    connection.query("SELECT * FROM bamazon_db.inventory", function (err, res) {
+        if (err) throw err;
+        console.table(res);
+    });
+};
+
+
 
 //make csv of inventory
 //make database
 //import csv to database
-//install jason,inquirer and sql
+//install json, inquirer and sql
 //connect javascript to sql
-//run bamazon.js
+//run bamazon.js to display all items currently in stock with prices
+//prompt user for id of item they would like then the quantity they would like to buy
+//check inventory amount so user cant buy more than current inventory
+//show total cost of purchase
+//edit inventory after user buys items
 //make read me
