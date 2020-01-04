@@ -20,3 +20,11 @@ connection.connect(function (err) {
     console.log("connected as id " + connection.threadId);
     connection.end();
 });
+
+//make csv of inventory
+//make database
+//import csv to database
+//install jason,inquirer and sql
+//connect javascript to sql
+//run bamazon.js
+//make read me
