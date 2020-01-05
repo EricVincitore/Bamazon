@@ -18,7 +18,8 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId);
-    readInventory()
+    readInventory();
+    itemSearch();
 });
 
 function readInventory() {
@@ -28,7 +29,22 @@ function readInventory() {
     });
 };
 
+function itemSearch() {
+    inquirer
+        .prompt([{
+            name: "start",
+            type: "input",
+            message: "Welcome to Bamazon! What is the id of the Product you would like?" + "\n",
+        },
+        {
+            name: "amount",
+            type: "input",
+            message: "How many would you like to purchase?" + "\n",
+        }])
+        .then(function (answer) {
 
+        });
+}
 
 //make csv of inventory
 //make database
