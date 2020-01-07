@@ -1,5 +1,5 @@
-var mysql = require("mysql")
-var inquirer = require("inquirer")
+var mysql = require("mysql");
+var inquirer = require("inquirer");
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -16,54 +16,59 @@ var connection = mysql.createConnection({
 })
 
 connection.connect(function (err) {
-    if (err) throw err
-    console.log("connected as id " + connection.threadId)
-    readInventory()
-    startSearch()
-})
+    if (err) throw err;
+    console.log("connected as id " + connection.threadId);
+    startSearch();
+});
 
 function readInventory() {
     connection.query("SELECT * FROM bamazon_db.inventory", function (err, res) {
-        if (err) throw err
-        console.table(res)
-    })
-}
+        if (err) throw err;
+        console.table(res);
+    });
+};
 
 function startSearch() {
+    readInventory();
     inquirer
         .prompt({
             name: "start",
-            type: "input",
-            message: "Welcome to Bamazon! What is the id of the item you would like to buy?" + "\n",
+            type: "confirm",
+            message: "Welcome to Bamazon! Would you like to start shopping with us?" + "\n",
         })
         .then(function (answer) {
-            connection.query("SELECT * FROM bamazon_db.inventory WHERE ?", { id: answer.start }, function (err, res) {
-                if (err) throw err
-                console.table(res)
-            })
-            correctItem()
-        })
-}
+            if (answer.start = "y") {
+                buy();
+            } else {
+                console.log("Have a good day!")
+                connection.end()
+            };
 
-function correctItem () {
+        });
+};
+
+function buy() {
     inquirer
-    .prompt({
-        name: "correct",
-        type: "confirm",
-        message: "Is this the product you would like to purchase?" + "\n"
-    })
-    .then(function (answer) {
-        switch (answer.correct) {
-            case "Y":
-                console.log("yes")
-                break;
-        
-            case "n":
-                console.log("no")
-                break;
-        }
-    })
-}
+        .prompt([
+            {
+                name: "start",
+                type: "input",
+                message: "What is the id of the item you would like to buy?" + "\n",
+            },
+            {
+                name: "howMany",
+                type: "input",
+                message: "How many would you like to purchase?" + "\n"
+            }
+        ])
+        .then(function (answer) {
+            var invAmount = "SELECT * FROM bamazon_db.inventory WHERE ?";
+            connection.query(invAmount, { id: answer.start }, function (err, res) {
+                if (err) throw err;
+                console.table(res);
+            });
+        });
+};
 
 //make csv of inventory
 //make database
