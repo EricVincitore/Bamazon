@@ -1,4 +1,4 @@
-var mysql = require("mysql");
+var mysql = require("mysql")
 var inquirer = require("inquirer")
 
 var connection = mysql.createConnection({
@@ -13,37 +13,56 @@ var connection = mysql.createConnection({
     // Your password
     password: "root",
     database: "bamazon_db"
-});
+})
 
 connection.connect(function (err) {
-    if (err) throw err;
-    console.log("connected as id " + connection.threadId);
-    readInventory();
-    itemSearch();
-});
+    if (err) throw err
+    console.log("connected as id " + connection.threadId)
+    readInventory()
+    startSearch()
+})
 
 function readInventory() {
     connection.query("SELECT * FROM bamazon_db.inventory", function (err, res) {
-        if (err) throw err;
-        console.table(res);
-    });
-};
+        if (err) throw err
+        console.table(res)
+    })
+}
 
-function itemSearch() {
+function startSearch() {
     inquirer
-        .prompt([{
+        .prompt({
             name: "start",
             type: "input",
-            message: "Welcome to Bamazon! What is the id of the Product you would like?" + "\n",
-        },
-        {
-            name: "amount",
-            type: "input",
-            message: "How many would you like to purchase?" + "\n",
-        }])
+            message: "Welcome to Bamazon! What is the id of the item you would like to buy?" + "\n",
+        })
         .then(function (answer) {
+            connection.query("SELECT * FROM bamazon_db.inventory WHERE ?", { id: answer.start }, function (err, res) {
+                if (err) throw err
+                console.table(res)
+            })
+            correctItem()
+        })
+}
 
-        });
+function correctItem () {
+    inquirer
+    .prompt({
+        name: "correct",
+        type: "confirm",
+        message: "Is this the product you would like to purchase?" + "\n"
+    })
+    .then(function (answer) {
+        switch (answer.correct) {
+            case "Y":
+                console.log("yes")
+                break;
+        
+            case "n":
+                console.log("no")
+                break;
+        }
+    })
 }
 
 //make csv of inventory
