@@ -62,10 +62,12 @@ function buy() {
             }
         ])
         .then(function (answer) {
+
             var invAmount = "SELECT * FROM bamazon_db.inventory WHERE ?";
             connection.query(invAmount, { id: answer.start }, function (err, res) {
                 if (err) throw err;
-                console.table(res);
+                var priceTotal = answer.howMany * parseFloat(invAmount + "POSITION ?" [{id:answer.start}, 4]);
+                console.log("Your total comes to $" + priceTotal);
             });
         });
 };
