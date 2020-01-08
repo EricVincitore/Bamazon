@@ -29,7 +29,7 @@ function readInventory() {
 };
 
 function startSearch() {
-    readInventory();
+    //readInventory();
     inquirer
         .prompt({
             name: "start",
@@ -37,13 +37,18 @@ function startSearch() {
             message: "Welcome to Bamazon! Would you like to start shopping with us?" + "\n",
         })
         .then(function (answer) {
-            if (answer.start = "y") {
-                buy();
-            } else {
-                console.log("Have a good day!")
-                connection.end()
-            };
-
+            switch (answer.start) {
+                case true:
+                    console.log("yes")
+                    buy();
+                    break;
+            
+                case false:
+                    console.log("no")
+                    console.log("Have a good day!")
+                    connection.end()
+                    break;
+            }
         });
 };
 
@@ -63,11 +68,12 @@ function buy() {
         ])
         .then(function (answer) {
 
-            var invAmount = "SELECT * FROM bamazon_db.inventory WHERE ?";
-            connection.query(invAmount, { id: answer.start }, function (err, res) {
+            var invAmount = "SELECT * FROM bamazon_db.inventory"
+            connection.query(invAmount, function (err, res) {
                 if (err) throw err;
-                var priceTotal = answer.howMany * parseFloat(invAmount + "POSITION ?" [{id:answer.start}, 4]);
-                console.log("Your total comes to $" + priceTotal);
+                var price = invAmount + "WHERE ?" + {Price: answer.start}
+                console.log(price)
+                console.log("Your total comes to $" + price);
             });
         });
 };
