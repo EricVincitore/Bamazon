@@ -18,18 +18,19 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId);
-    startSearch();
+    readInventory();
 });
 
 function readInventory() {
     connection.query("SELECT * FROM bamazon_db.inventory", function (err, res) {
         if (err) throw err;
         console.table(res);
+        startSearch();
     });
 };
 
 function startSearch() {
-    //readInventory();
+    
     inquirer
         .prompt({
             name: "start",
@@ -39,12 +40,10 @@ function startSearch() {
         .then(function (answer) {
             switch (answer.start) {
                 case true:
-                    console.log("yes")
                     buy();
                     break;
             
                 case false:
-                    console.log("no")
                     console.log("Have a good day!")
                     connection.end()
                     break;
@@ -68,12 +67,12 @@ function buy() {
         ])
         .then(function (answer) {
 
-            var invAmount = "SELECT * FROM bamazon_db.inventory"
-            connection.query(invAmount, function (err, res) {
+            var invAmount = "SELECT * FROM bamazon_db.inventory WHERE ?";
+            connection.query(invAmount, [{id: answer.start}], function (err, res) {
                 if (err) throw err;
-                var price = invAmount + "WHERE ?" + {Price: answer.start}
-                console.log(price)
-                console.log("Your total comes to $" + price);
+                var price = res[0].Price
+                var totalPrice = answer.howMany * price
+                console.log("Your total comes to $" + totalPrice );
             });
         });
 };
