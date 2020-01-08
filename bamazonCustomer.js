@@ -71,9 +71,14 @@ function buy() {
             var updateAmount = "UPDATE bamazon_db.inventory SET Stock_Quantity = Stock_Quantity - " + answer.howMany + "WHERE = ?";
             connection.query(invAmount, [{id: answer.start}], function (err, res) {
                 if (err) throw err;
-                var price = res[0].Price
-                var totalPrice = answer.howMany * price
-                console.log("Your total comes to $" + totalPrice );
+
+                if (answer.howMany > invAmount + "Stock_Quantity") {
+                    console.log("Sorry, we don't have that many in stock please try again with a different quantity.")
+                } else {
+                    var price = res[0].Price
+                    var totalPrice = answer.howMany * price
+                    console.log("Your total comes to $" + totalPrice ); 
+                }  
 
                 connection.query(updateAmount, [{id: answer.start}], function (err, res) {
                     if (err) throw err;
