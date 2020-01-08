@@ -4,6 +4,8 @@ This app allows the user to shop a database of products through their command li
 
 ## Overview
 
+Welcome to Bamazon! This app lets the user shop for items from the Bamazon database and complete purchases of interesting products from one location.
+
 ### Instructions
 
 1. After you have pulled hte repository navigate to the folder in your terminal and run the following commands to install node and the required dependencies.
@@ -28,3 +30,25 @@ This app allows the user to shop a database of products through their command li
 
 4. The app will now ask how many of the product you would like to purchase. Type the quantity you are looking for as a number. The total price for your purchase will then be displayed.
 ![Purchase Questions](images/purchaseQuestions.PNG)
+    * If the user tries to purchase a quantity greater than whats in stock the app will let them know and restart the purchasing steps.
+![Purchase Quantity is too great](images/stock.PNG)
+
+5. After a successful purchase is made the database will be updated with the new stock quantities and the starting screen will be displayed to the user again.
+
+## Links
+
+### Git-Hub Page
+
+https://github.com/EricVincitore/Bamazon
+
+## Technologies Used
+
+* Javascript
+* Node.js
+* MySQL
+* Inquirer
+* console.table
+
+## Development Role
+
+This app was developed by Eric Vincitore.
