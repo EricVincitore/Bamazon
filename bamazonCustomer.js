@@ -57,7 +57,7 @@ function buy() {
             {
                 name: "start",
                 type: "input",
-                message: "What is the id of the item you would like to buy?" + "\n",
+                message: "What is the id number of the item you would like to purchase?" + "\n",
             },
             {
                 name: "howMany",
@@ -68,16 +68,16 @@ function buy() {
         .then(function (answer) {
 
             var invAmount = "SELECT * FROM bamazon_db.inventory WHERE ?";
-            var updateAmount = "UPDATE bamazon_db.inventory SET Stock_Quantity = Stock_Quantity - " + answer.howMany + "WHERE ?";
+            var updateAmount = "UPDATE bamazon_db.inventory SET Stock_Quantity = Stock_Quantity - " + answer.howMany + "WHERE = ?";
             connection.query(invAmount, [{id: answer.start}], function (err, res) {
                 if (err) throw err;
                 var price = res[0].Price
                 var totalPrice = answer.howMany * price
                 console.log("Your total comes to $" + totalPrice );
 
-                connection.query(updateAmount[{id: answer.start}], function (err, res) {
+                connection.query(updateAmount, [{id: answer.start}], function (err, res) {
                     if (err) throw err;
-                    
+                    console.log(res)
                 })
             });
         });
