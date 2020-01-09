@@ -68,7 +68,8 @@ function buy() {
         .then(function (answer) {
 
             var invAmount = "SELECT * FROM bamazon_db.inventory WHERE ?";
-            var updateAmount = "UPDATE bamazon_db.inventory SET Stock_Quantity = Stock_Quantity - " + answer.howMany + "WHERE = ?";
+            var updateAmount = "UPDATE bamazon_db.inventory SET Stock_Quantity = Stock_Quantity - " + answer.howMany + " WHERE ?";
+            
             connection.query(invAmount, [{id: answer.start}], function (err, res) {
                 if (err) throw err;
 
@@ -83,9 +84,12 @@ function buy() {
                     connection.query(updateAmount, [{id: answer.start}], function (err, res) {
                         if (err) throw err;
                         console.log(res)
+                        readInventory();
                     });
                 };
             });
+
+            
         });
 };
 
