@@ -34,6 +34,7 @@ Welcome to Bamazon! This app lets the user shop for items from the Bamazon datab
 ![Purchase Quantity is too great](images/stock.PNG)
 
 5. After a successful purchase is made the database will be updated with the new stock quantities and the starting screen will be displayed to the user again.
+![Updated Stock Screen](images/updatedStock.PNG)
 
 ## Links
 
